@@ -42,6 +42,8 @@ def read_msg(data):
     time = data_decode["time"]
     frameCnt = data_decode["frameCnt"]
     msg = data_decode["data"]
+    # need to verify the mac_address(or it will get the others data by accident)
+
     print(time+f"  frameCnt- '{frameCnt}'")
     print(msg)
     if(msg[0:4] == "0271"):
