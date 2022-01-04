@@ -21,6 +21,7 @@ def GPS_decoder(msg):
     # data.lon = parseInt(hexString.slice(8, 16), 16) / 10000000;
     lat = msg[0:8]
     lat_int = int(lat, 16)/10000000
-
+    print(f"lat_int: {lat_int}")
     lon = msg[8:16]
     lon_int = int(lon, 16)/10000000
+    print(f"lon_int: {lon_int}")
