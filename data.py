@@ -35,10 +35,10 @@ def connect_mqtt() -> mqtt_client:
 
 
 def read_msg(data):
-    data_decode = data[0]##[{"str":int,}]
+    data_decode = data[0]  # [{"str":int,}]
     #! data_decode now is in dic format
     # print(type(data_decode))
-    
+
     time = data_decode["time"]
     frameCnt = data_decode["frameCnt"]
     msg = data_decode["data"]
@@ -46,7 +46,7 @@ def read_msg(data):
     print(msg)
     if(msg[0:4] == "0271"):
         accleration_decoder(msg)
-    if(msg[0:4] == "0274"):
+    if(msg[0:4] == "0288"):
         GPS_decoder(msg)
 
 
