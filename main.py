@@ -14,11 +14,11 @@ db = firestore.client()
 
 a = 1
 doc = {
-  '1': "n",
-  'email': "abc@gmail.com"
+    '1': "n",
+    'email': "abc@gmail.com"
 }
 
-doc1 ={
+doc1 = {
     'file': a
 }
 # 語法
