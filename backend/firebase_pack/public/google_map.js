@@ -5,24 +5,40 @@
       
       function initMap() {
 
-        const Hsinchu = { lat: 24.795198, lng: 120.994439 };
+        const Hsinchu = { lat: 24.7961, lng: 120.9967 };
 
         const map = new google.maps.Map(document.getElementById("map"), {
           zoom: 12,
           center: Hsinchu,
         });
-        // var tmp = GPS_posi;
+        addMarker(Hsinchu, map);
+
 
         // for(var i=0; i<100; i++){
 
         //     addMarker(tmp, map);
         // }
         // // This event listener calls addMarker() when the map is clicked.
-        // google.maps.event.addListener(map, "click", (event) => {
-        //   addMarker(event.latLng, map);
-        // });
+   
 
         // Add a marker at the center of the map.
+          var db = firebase.firestore();
+         
+          db.collection('GPS').onSnapshot((snapshot) => {
+        
+            console.log("read data")
+            snapshot.forEach((snap)=>{
+              var lat_data=snap.data().lat
+              var lon_data=snap.data().lon
+              var GPS_posi={lat:lat_data,lng:lon_data}
+              var tmp = GPS_posi;
+              console.log("add +",tmp)
+              addMarker(tmp, map);
+            })
+        }, (error) => {
+            console.log(error.message)
+        });
+        
       }
 
       // Adds a marker to the map.
