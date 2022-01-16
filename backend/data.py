@@ -1,8 +1,8 @@
 import random
 import json
 import queue
-from backend.decoder import accleration_decoder
-from backend.decoder import GPS_decoder
+from decoder import accleration_decoder
+from decoder import GPS_decoder
 from paho.mqtt import client as mqtt_client
 
 
@@ -42,14 +42,15 @@ def read_msg(data):
     time = data_decode["time"]
     frameCnt = data_decode["frameCnt"]
     msg = data_decode["data"]
+    mac_address = data_decode["macAddr"]
     # need to verify the mac_address(or it will get the others data by accident)
-
-    print(time+f"  frameCnt- '{frameCnt}'")
-    print(msg)
-    if(msg[0:4] == "0271"):
-        accleration_decoder(msg)
-    if(msg[0:4] == "0288"):
-        GPS_decoder(msg)
+    if(mac_address == "00000000aa58170b"):
+        print(time+f"  frameCnt- '{frameCnt}'")
+        print(msg)
+        if(msg[0:4] == "0271"):
+            accleration_decoder(msg, frameCnt)
+        if(msg[0:4] == "0288"):
+            GPS_decoder(msg, frameCnt)
 
 
 def subscribe(client: mqtt_client):
