@@ -38,19 +38,20 @@ def read_msg(data):
     data_decode = data[0]  # [{"str":int,}]
     #! data_decode now is in dic format
     # print(type(data_decode))
-
-    time = data_decode["time"]
-    frameCnt = data_decode["frameCnt"]
-    msg = data_decode["data"]
     mac_address = data_decode["macAddr"]
-    # need to verify the mac_address(or it will get the others data by accident)
     if(mac_address == "00000000aa58170b"):
-        print(time+f"  frameCnt- '{frameCnt}'")
-        print(msg)
-        if(msg[0:4] == "0271"):
-            accleration_decoder(msg, frameCnt)
-        if(msg[0:4] == "0288"):
-            GPS_decoder(msg, frameCnt)
+        time = data_decode["time"]
+        frameCnt = data_decode["frameCnt"]
+        msg = data_decode["data"]
+        mac_address = data_decode["macAddr"]
+        # need to verify the mac_address(or it will get the others data by accident)
+        if(mac_address == "00000000aa58170b"):
+            print(time+f"  frameCnt- '{frameCnt}'")
+            print(msg)
+            if(msg[0:4] == "0271"):
+                accleration_decoder(msg, frameCnt)
+            if(msg[0:4] == "0288"):
+                GPS_decoder(msg, frameCnt)
 
 
 def subscribe(client: mqtt_client):

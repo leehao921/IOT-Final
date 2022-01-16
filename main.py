@@ -1,34 +1,84 @@
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
+import random
+import json
+import queue
+from paho.mqtt import client as mqtt_client
 
-# 引用私密金鑰
-# path/to/serviceAccount.json 請用自己存放的路徑
-cred = credentials.Certificate('serviceAccount.json')
 
-# 初始化firebase，注意不能重複初始化
-firebase_admin.initialize_app(cred)
+broker = 'mqtt-dev.kits.tw'
+port = 1883
+topic = "NBIOT-GW/UL/+"  # !3bf90242ac110003"
+# generate client ID with pub prefix randomly
+client_id = f'NTHU-IOT-LAB-{random.randint(0, 100)}'
 
-# 初始化firestore
-db = firestore.client()
 
-a = 1
-doc = {
-    '1': "n",
-    'email': "abc@gmail.com"
-}
+def connect_mqtt() -> mqtt_client:
+    def on_connect(client, userdata, flags, rc):
+        if rc == 0:
+            print("Connecting to MQTT!")
+        else:
+            print("Failed to connect, return code %d\n", rc)
 
-doc1 = {
-    'file': a
-}
-# 語法
-# doc_ref = db.collection("集合名稱").document("文件id")
+    client = mqtt_client.Client(client_id)
+    client.on_connect = on_connect
+    client.connect(broker, port)
+    return client
 
-doc_ref = db.collection("pyradise_students").document("student_01")
 
-# doc_ref提供一個set的方法，input必須是dictionary
+# def accleration_decoder(msg):
+#     print("it is accleration ")
 
-doc_ref.set(doc)
 
-doc2_re1 = db.collection("1")
-doc2_re1.add(doc1)
+# def GPS_decoder(msg):
+#     print("it is GPS ")
+
+
+def read_msg(data):
+    data_decode = data[0]  # [{"str":int,}]
+    #! data_decode now is in dic format
+    # print(type(data_decode))
+
+    time = data_decode["time"]
+    frameCnt = data_decode["frameCnt"]
+    msg = data_decode["data"]
+    mac_address = data_decode["macAddr"]
+    # need to verify the mac_address(or it will get the others data by accident)
+    if(mac_address == "00000000aa58170b"):
+        print(time+f"  frameCnt- '{frameCnt}'")
+        print(msg)
+        if(msg[0:4] == "0271"):
+            accleration_decoder(msg, frameCnt)
+
+
+def accleration_decoder(msg, frameCnt):
+    print("it is accleration ")
+    x = msg[4:8]
+    y = msg[8:12]
+    z = msg[12:16]
+    x_int = int(x, 16)/1000
+    print(f"x: {x_int}")
+    y_int = int(y, 16)/1000
+    print(f"y: {y_int}")
+    z_int = int(z, 16)/1000
+    print(f"z: {z_int}")
+    
+
+
+def subscribe(client: mqtt_client):
+    def on_message(client, userdata, msg):
+        print(f"Received from`{msg.topic}`:")
+
+        # it becomes list after first loads
+        read_msg(json.loads(msg.payload.decode("utf-8")))
+        # ! the msg.payload.decode("utf-8") will make the message turn into string
+    client.subscribe(topic)
+    client.on_message = on_message
+
+
+def run():
+    client = connect_mqtt()
+    subscribe(client)
+    client.loop_forever()
+
+
+if __name__ == '__main__':
+    run()
