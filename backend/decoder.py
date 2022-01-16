@@ -29,7 +29,7 @@ def accleration_decoder(msg, frameCnt):
         'y': y_int,
         'z': z_int
     }
-    doc_re1 = db.collection("accleration")
+    doc_re1 = db.collection("Acceleration")
     doc_re1.document(f'{frameCnt}').set(doc)
 
 

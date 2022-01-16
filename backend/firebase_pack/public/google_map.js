@@ -26,14 +26,16 @@
          
           db.collection('GPS').onSnapshot((snapshot) => {
         
-            console.log("read data")
+            console.log("read GPS data")
             snapshot.forEach((snap)=>{
               var lat_data=snap.data().lat
               var lon_data=snap.data().lon
               var GPS_posi={lat:lat_data,lng:lon_data}
               var tmp = GPS_posi;
-              console.log("add +",tmp)
-              addMarker(tmp, map);
+              console.log("GPS add +",tmp)
+              // addMarker(tmp, map);
+              //目前暫時關掉，因為怕流量太大
+              
             })
         }, (error) => {
             console.log(error.message)
