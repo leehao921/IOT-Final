@@ -1,4 +1,4 @@
-function get_gps(GPS_posi){
+
 const firebaseConfig = {
   apiKey: "AIzaSyCPbX5vauQIP_VvOtFIQbMm5snlm66JHqs",
   authDomain: "iot-final-b320d.firebaseapp.com",
@@ -11,23 +11,7 @@ const firebaseConfig = {
   }
   
   // Initialize Firebase
-  firebase.initializeApp(firebaseConfig)
-  var db = firebase.firestore();
- 
-  db.collection('GPS').onSnapshot((snapshot) => {
+firebase.initializeApp(firebaseConfig)
 
-    console.log("read data")
-    snapshot.forEach((snap)=>{
-      console.log(snap.data())
-      var lat_data=snap.data().lat
-      var lon_data=snap.data().lon
-      var GPS_posi={lat:lat_data,lon:lon_data}
-      return(GPS_posi)
-      
-    })
-}, (error) => {
-    console.log(error.message)
-});
-}
 
-export { get_gps };
+

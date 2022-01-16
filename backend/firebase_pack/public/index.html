@@ -10,9 +10,10 @@
       </style>
 
       <link rel="stylesheet" href="battery.css">
-
-      <script src="google_map.js"></script>
-
+      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script> 
+      <script src="firebase_data.js"></script>
+      <script src ="google_map.js"> </script>
       <script src="battery.js"></script>
 
       <script async defer
@@ -21,8 +22,6 @@
     <head>
 
     <body onload="update()">
-      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script> 
 
       <h2 class="center font1">Team4</h2>
 
@@ -39,11 +38,9 @@
           <h2 class="font1">My Google Maps Demo:</h2>
 
           <div id="map"></div>
-          <!-- <script src="firebase_data.js"></script>
-          <script src ="google_map.js"> </script> -->
-          <script type="module" src ="index.js"> </script>
-          <script async defer
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVkPBH7U3oRL-nriI4ToOiQCnSti172x0&callback=initMap">
+ 
+
+         
       </script>
 
         </div>
