@@ -25,15 +25,6 @@ def connect_mqtt() -> mqtt_client:
     client.connect(broker, port)
     return client
 
-
-# def accleration_decoder(msg):
-#     print("it is accleration ")
-
-
-# def GPS_decoder(msg):
-#     print("it is GPS ")
-
-
 def read_msg(data):
     data_decode = data[0]  # [{"str":int,}]
     #! data_decode now is in dic format

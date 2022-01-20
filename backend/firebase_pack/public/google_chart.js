@@ -4,7 +4,6 @@ google.charts.setOnLoadCallback(drawChart);
 function drawChart() {
 
 var data = new google.visualization.DataTable();
-<<<<<<< HEAD
 data.addColumn('date', 'Time');
 data.addColumn('number', 'X');
 data.addColumn('number', 'Y');
@@ -12,16 +11,6 @@ data.addColumn('number', 'Z');
 
 var db = firebase.firestore();
 var drawing=[];
-=======
-// data.addColumn('number', 'Time');
-data.addColumn('number', 'X');
-data.addColumn('number', 'Y');
-data.addColumn('number', 'Z');
-// data.addRows([[0,0,0],[0,1,1]])
-
-var db = firebase.firestore();
-var drawing=[[2,2,2],[3,3,3]]
->>>>>>> bace45850974f0ac1182e4b9880913d1b0534db4
 
 var options = {
     chart: {
