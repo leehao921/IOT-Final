@@ -28,14 +28,13 @@
         
             console.log("read GPS data")
             snapshot.forEach((snap)=>{
-              var lat_data=snap.data().lat;
-              var lon_data=snap.data().lon;
-
-              var GPS_posi={lat:lat_data,lng:lon_data};
-              // var tmp = GPS_posi;
-              console.log("GPS add +",GPS_posi)
-              addMarker(GPS_posi, map);
-
+              var lat_data=snap.data().lat
+              var lon_data=snap.data().lon
+              var GPS_posi={lat:lat_data,lng:lon_data}
+              var tmp = GPS_posi;
+              console.log("GPS add +",tmp)
+              // addMarker(tmp, map);
+              //目前暫時關掉，因為怕流量太大
               
             })
         }, (error) => {
