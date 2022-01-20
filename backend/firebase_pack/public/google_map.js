@@ -1,23 +1,21 @@
 
 
-
+var path =[];
       function initMap() {
 
         const Hsinchu = { lat: 24.7961, lng: 120.9967 };
+        path.push(Hsinchu);
         const infoWindow = new google.maps.InfoWindow();
-        var path =[];
-        path.push({ lat: 24.7961, lng: 120.9967 });
-        console.log("path=",path);
-
         const map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 2,
+          zoom: 15,
           center: Hsinchu,
         });
         // addMarker(Hsinchu, map, 3, infoWindow, "123");
 
         // Add a marker at the center of the map.
           var db = firebase.firestore();
-         
+          
+          
           db.collection('GPS').onSnapshot((snapshot) => {
         
             console.log("read GPS data")
@@ -28,16 +26,15 @@
               var timestamp = snap.data().timestamp
               
               addMarker(GPS_posi, map, 3, infoWindow, timestamp);
-              //目前暫時關掉，因為怕流量太大
-              path.push(GPS_posi);
-              
+              // path.push(GPS_posi);
+              console.log("path=",path);
             })
         }, (error) => {
             console.log(error.message)
         });
         
         //*****************  add a polyline  ******************
-        path.push({lat: 37.772, lng: -122.214 });
+        
 
         var poly = new google.maps.Polyline({
            path: path,
