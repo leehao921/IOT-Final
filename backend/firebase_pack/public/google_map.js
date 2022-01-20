@@ -25,17 +25,18 @@ var path =[];
               var GPS_posi={lat:lat_data,lng:lon_data}
               var timestamp = snap.data().timestamp
               
-              addMarker(GPS_posi, map, 3, infoWindow, timestamp);
-              // path.push(GPS_posi);
-              console.log("path=",path);
+              addMarker(GPS_posi, map, getRandom(1,7), infoWindow, timestamp);
+              //目前暫時關掉，因為怕流量太大
+              path.push(GPS_posi);
+              
             })
         }, (error) => {
             console.log(error.message)
         });
         
         //*****************  add a polyline  ******************
-        
-
+        path.push({lat: 37.772, lng: -122.214 });
+        console.log("path=", path);
         var poly = new google.maps.Polyline({
            path: path,
            geodesic: true,
@@ -99,3 +100,7 @@ var path =[];
 
       }
 
+      //產生min到max之間的亂數
+      function getRandom(min,max){
+        return Math.floor(Math.random()*(max-min+1))+min;
+      };
