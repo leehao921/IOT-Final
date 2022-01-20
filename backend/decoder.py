@@ -35,9 +35,6 @@ def accleration_decoder(msg, frameCnt):
 
 def GPS_decoder(msg, frameCnt):
     print("it is GPS ")
-    # let hexString = data.value.toString(16).padStart(16, "0");
-    # data.lat = parseInt(hexString.slice(0, 8), 16) / 10000000;
-    # data.lon = parseInt(hexString.slice(8, 16), 16) / 10000000;
     lat = msg[4:12]
     lat_int = int(lat, 16)/10000000
     print(f"lat_int: {lat_int} ")
