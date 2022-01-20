@@ -38,7 +38,7 @@ db.collection('Acceleration').onSnapshot((snapshot) => {
             
             drawing.push(tmp)
             data.addRows(drawing)   
-            console.log("acc add +",drawing)
+            // console.log("acc add +",drawing)
             chart.draw(data, google.charts.Line.convertOptions(options));
         })
     }, (error) => {

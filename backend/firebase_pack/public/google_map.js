@@ -1,14 +1,14 @@
 
 
-
+var path =[];
       function initMap() {
 
         const Hsinchu = { lat: 24.7961, lng: 120.9967 };
-        const infoWindow = new google.maps.InfoWindow();
-        var path =[];
-        path.push({ lat: 24.7961, lng: 120.9967 });
-        console.log("path=",path);
 
+
+        // path.push(Hsinchu);
+        // path.push({ lat: 24.8061, lng: 120.9967 });
+        const infoWindow = new google.maps.InfoWindow();
         const map = new google.maps.Map(document.getElementById("map"), {
           zoom: 15,
           center: Hsinchu,
@@ -17,9 +17,10 @@
 
         // Add a marker at the center of the map.
           var db = firebase.firestore();
-         
+          
+          
           db.collection('GPS').onSnapshot((snapshot) => {
-        
+      
             console.log("read GPS data")
             snapshot.forEach((snap)=>{
               var lat_data=snap.data().lat
@@ -27,28 +28,16 @@
               var GPS_posi={lat:lat_data,lng:lon_data}
               var timestamp = snap.data().timestamp
               
-              addMarker(GPS_posi, map, getRandom(1,7), infoWindow, timestamp);
-              //目前暫時關掉，因為怕流量太大
-              path.push(GPS_posi);
+              addMarker(GPS_posi, map, getRandom(1,7), infoWindow, timestamp.toDate().toString());
+              addPath(map,GPS_posi);
               
             })
-        }, (error) => {
+        }, 
+          (error) => {
             console.log(error.message)
         });
         
-        //*****************  add a polyline  ******************
-        path.push({lat: 37.772, lng: -122.214 });
-        console.log("path=", path);
-        var poly = new google.maps.Polyline({
-           path: path,
-           geodesic: true,
-           strokeColor: "#FFFFFF",
-           strokeOpacity: 0.5,
-           strokeWeight: 2,
-         });
-        
 
-        poly.setMap(map);
       }
       
       // Adds a marker to the map.
@@ -88,7 +77,6 @@
 
         const marker = new google.maps.Marker({
           position: location,
-          // label: "fuck",
           map: map,
           icon: svgMarker,
           title: text,
@@ -100,6 +88,21 @@
           infoWindow.open(marker.getMap(), marker);
         });
 
+      }
+      function addPath(map,GPS)
+      {
+        path.push(GPS);
+        console.log("path=", path)   
+        //*****************  add a polyline  ******************
+
+        var poly = new google.maps.Polyline({
+          path: path,
+          geodesic: true,
+          strokeColor: "#ffffff",
+          strokeOpacity: 1,
+          strokeWeight: 2,
+        });    
+        poly.setMap(map);
       }
 
       //產生min到max之間的亂數
